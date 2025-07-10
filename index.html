@@ -231,28 +231,42 @@
   }
 </style>
 
-<script>
+<script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js">
 
   // Initialize MSAL
+  const msalConfig = {
+    auth: {
+      clientId: "b23e4369-f02e-4d4d-8ebc-d4216a351fe3", // 👈 Replace with your Azure App's client ID
+      authority: "https://login.microsoftonline.com/fac75216-7554-4d10-b3e2-27b6277bdf67", // 👈 Or use 'common' if multitenant
+      redirectUri: window.location.href
+    }
+  };
 
-const msalConfig = {
-  auth: {
-    clientId: "b23e4369-f02e-4d4d-8ebc-d4216a351fe3",
-    authority: "https://login.microsoftonline.com/fac75216-7554-4d10-b3e2-27b6277bdf67",
-    redirectUri: "http://localhost:3000",
-  }
-};
+  const msalInstance = new msal.PublicClientApplication(msalConfig);
 
-const msalInstance = new msal.PublicClientApplication(msalConfig);
+  document.getElementById("loginButton").addEventListener("click", async () => {
+    try {
+      const loginResponse = await msalInstance.loginPopup({
+        scopes: ["https://org09d03809.crm5.dynamics.com/.default"] // 👈 Your Dataverse scope
+      });
 
-await msalInstance.loginPopup({ scopes: ["https://<org>.crm.dynamics.com/.default"] });
+      console.log("Login successful. Access token granted.");
+      console.log("User:", loginResponse.account);
+      
+      const tokenResponse = await msalInstance.acquireTokenSilent({
+        account: loginResponse.account,
+        scopes: ["https://org09d03809.crm5.dynamics.com/.default"]
+      });
 
-const account = msalInstance.getAllAccounts()[0];
-const response = await msalInstance.acquireTokenSilent({
-  account,
-  scopes: ["https://<org>.crm.dynamics.com/.default"]
-});
-console.log("Access token:", response.accessToken);
+      console.log("Access token:", tokenResponse.accessToken);
+      // 👉 You can now call Dataverse API with this token using fetch or axios
+
+    } catch (err) {
+      console.error("Authentication error:", err);
+    }
+  });
+
+
 
   const chatToggle = document.getElementById('chat-toggle');
   const chatPanel = document.getElementById('chat-panel');
