@@ -232,6 +232,28 @@
 </style>
 
 <script>
+
+  // Initialize MSAL
+
+const msalConfig = {
+  auth: {
+    clientId: "b23e4369-f02e-4d4d-8ebc-d4216a351fe3",
+    authority: "https://login.microsoftonline.com/fac75216-7554-4d10-b3e2-27b6277bdf67",
+    redirectUri: "http://localhost:3000",
+  }
+};
+
+const msalInstance = new msal.PublicClientApplication(msalConfig);
+
+await msalInstance.loginPopup({ scopes: ["https://<org>.crm.dynamics.com/.default"] });
+
+const account = msalInstance.getAllAccounts()[0];
+const response = await msalInstance.acquireTokenSilent({
+  account,
+  scopes: ["https://<org>.crm.dynamics.com/.default"]
+});
+console.log("Access token:", response.accessToken);
+
   const chatToggle = document.getElementById('chat-toggle');
   const chatPanel = document.getElementById('chat-panel');
   const chatClose = document.getElementById('chat-close');
