@@ -1,217 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+   <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "w8mofkvwzr");
+</script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="thumbnail"
+      property="og:image"
+      content="https://microsoft.github.io/cat/images/powercattools.png"
+    />
+    <meta name="thumbnail" property="og:image:width" content="1200" />
+    <meta name="thumbnail" property="og:image:height" content="1200" />
+    <meta property="og:image:alt" content="CAT Agent Platform Advisor" />
+    <meta
+      name="title"
+      property="og:title"
+      content="CAT Agent Platform Advisor"
+    />
+    <meta
+      name="description"
+      property="og:description"
+      content="Answer a few questions about what you're trying to build, and we'll recommend the best Microsoft agent platform for your scenario."
+    />
+    <meta
+      name="url"
+      property="og:url"
+      content="https://microsoft.github.io/cat/agent-platform-advisor/index.html"
+    />
+    <meta name="type" property="og:type" content="article" />
+    <meta
+      name="site_name"
+      property="og:site_name"
+      content="Microsoft CAT - Agent Platform Advisor"
+    />
+    <meta name="locale" property="og:locale" content="en_US" />
+    <meta name="author" property="og:author" content="Microsoft CAT" />
+    <meta name="publish_date" property="og:publish_date" content="2025-10-31" />
+    <meta name="description" content="Answer a few questions about what you're trying to build, and we'll recommend the best Microsoft agent platform for your scenario." />
+  <title>Agent Platform Advisor — Microsoft CAT</title>
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
 
-<head>
-  <meta charset="UTF-8" />
-  <title>Copilot Chat with Sendbox Pinned</title>
-  <script src="https://unpkg.com/react@16.8.6/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@16.8.6/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/botframework-webchat@4.18.1-main.20241015.4744d69/dist/webchat.js"></script>
-  <script src="https://unpkg.com/botframework-webchat-fluent-theme@4.18.1-main.20241015.4744d69/dist/botframework-webchat-fluent-theme.production.min.js"></script>
-  <script src="https://unpkg.com/copilot-studio-direct-to-engine-chat-adapter@0.0.0-main.20241022-173702.3e37c28/dist/copilot-studio-direct-to-engine-chat-adapter.production.global.js"></script>
-  <script src="https://alcdn.msauth.net/browser/2.35.0/js/msal-browser.min.js"></script>
-  <style>
-    html,
-    body {
-      height: 100%;
-      margin: 0;
-      background-color: #f0f0f0;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    }
+    <!-- Prevent flash of wrong theme -->
+    <script>
+      (function () {
+        var t = localStorage.getItem('cat-theme') || 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
 
-    #webchat-container {
-      width: 1000px;
-      height: 600px;
-      background-color: white;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      padding: 10px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      overflow: hidden;
-    }
+    <link rel="stylesheet" href="./assets/apa.css">
+  </head>
+  <body>
+    <!-- Progress bar -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <div class="logo-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 1.5a.75.75 0 0 1 .75.75 8.25 8.25 0 0 0 8.25 8.25.75.75 0 0 1 0 1.5 8.25 8.25 0 0 0-8.25 8.25.75.75 0 0 1-1.5 0 8.25 8.25 0 0 0-8.25-8.25.75.75 0 0 1 0-1.5 8.25 8.25 0 0 0 8.25-8.25A.75.75 0 0 1 12 1.5zM5.625 15a.375.375 0 0 1 .375.375 3.375 3.375 0 0 0 3.375 3.375.375.375 0 0 1 0 .75A3.375 3.375 0 0 0 6 22.875a.375.375 0 0 1-.75 0A3.375 3.375 0 0 0 1.875 19.5a.375.375 0 0 1 0-.75A3.375 3.375 0 0 0 5.25 15.375.375.375 0 0 1 5.625 15z"/>
+              </svg>
+            </div>
+            <a class="logo-text" id="logo-home-link" href="#" aria-label="Go to Get Started page">Agent Platform Advisor</a>
+          </div>
+          <div id="progress-bar"><!-- rendered by JS --></div>
+          <div class="header-actions">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Switch color theme">
+              <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+              <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              </svg>
+            </button>
+            <div class="nav-menu" id="nav-menu">
+              <button class="nav-menu-toggle" id="nav-menu-toggle" aria-label="Open documentation menu" aria-expanded="false" aria-controls="nav-menu-dropdown">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+              </button>
+              <div class="nav-menu-dropdown" id="nav-menu-dropdown" role="menu">
+                <a class="nav-menu-item" href="https://github.com/microsoft/AgentPlatformAdvisor/blob/main/README.md" target="_blank" rel="noopener" role="menuitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                  README
+                </a>
+                <a class="nav-menu-item" href="https://github.com/microsoft/AgentPlatformAdvisor/blob/main/docs/CHANGELOG.md" target="_blank" rel="noopener" role="menuitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                  Changelog
+                </a>
+                <a class="nav-menu-item" href="https://github.com/microsoft/AgentPlatformAdvisor/blob/main/docs/FLOWCHART.md" target="_blank" rel="noopener" role="menuitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  Flowchart
+                </a>
+                <a class="nav-menu-item" href="https://github.com/microsoft/AgentPlatformAdvisor/blob/main/docs/SCORING.md" target="_blank" rel="noopener" role="menuitem">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                  Scoring
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
 
-    #webchat {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      width: 100%;
-    }
-
-    .typing-indicator {
-      min-height: 24px;
-      transition: padding 0.2s ease;
-      padding: 0;
-      display: flex;
-      align-items: flex-end;
-    }
-
-    .typing-indicator.active {
-      padding: 8px 0;
-    }
-
-    .typing-bubble {
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-      padding: 8px 12px;
-      margin-left: 16px;
-      font-size: 14px;
-      color: #242424;
-      font-style: italic;
-      border: 1px solid #e6e6e6;
-      max-width: 75%;
-      animation: blinkBubble 1.4s infinite;
-    }
-
-    @keyframes blinkBubble {
-      0%,
-      100% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: 0.5;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <div id="webchat-container">
-    <div id="webchat" role="main"></div>
+    <main>
+      <div class="container main-container">
+        <div id="loading-section"  class="fade-in">
+          <div class="status-section">
+            <div class="status-icon">⏳</div>
+            <p class="status-text">Loading advisor data…</p>
+          </div>
+        </div>
+        <div id="error-section"    class="fade-in hidden">
+          <div class="card">
+            <div class="card-content error-content">
+              <div class="status-icon">⚠️</div>
+              <h2 class="error-heading">Unable to load advisor</h2>
+              <p id="error-message" class="error-message"></p>
+              <button class="btn btn-primary" onclick="boot()">Try Again</button>
+            </div>
+          </div>
+        </div>
+        <div id="welcome-section"  class="fade-in hidden"><div class="card">
+  <div class="card-content card-content--centered">
+    <div class="welcome-icon-wrapper">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="var(--primary)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M12 1.5a.75.75 0 0 1 .75.75 8.25 8.25 0 0 0 8.25 8.25.75.75 0 0 1 0 1.5 8.25 8.25 0 0 0-8.25 8.25.75.75 0 0 1-1.5 0 8.25 8.25 0 0 0-8.25-8.25.75.75 0 0 1 0-1.5 8.25 8.25 0 0 0 8.25-8.25A.75.75 0 0 1 12 1.5zM5.625 15a.375.375 0 0 1 .375.375 3.375 3.375 0 0 0 3.375 3.375.375.375 0 0 1 0 .75A3.375 3.375 0 0 0 6 22.875a.375.375 0 0 1-.75 0A3.375 3.375 0 0 0 1.875 19.5a.375.375 0 0 1 0-.75A3.375 3.375 0 0 0 5.25 15.375.375.375 0 0 1 5.625 15z"/>
+      </svg>
+    </div>
+    <h1 class="welcome-heading">
+      Agent Platform Advisor
+    </h1>
+    <p class="welcome-description">
+      Answer a few questions about what you're trying to build, and we'll recommend the best Microsoft platform to build it on.
+    </p>
+    <div class="platform-grid">
+      <div class="platform-preview">
+        <div class="platform-preview-icon">
+          <img src="images/m365-copilot-logo.png" alt="Microsoft 365 Copilot" class="platform-preview-img">
+        </div>
+        <h3 class="platform-preview-title">Microsoft 365 Copilot</h3>
+      </div>
+      <div class="platform-preview">
+        <div class="platform-preview-icon">
+          <img src="images/copilot.png" alt="Agent Builder" class="platform-preview-img">
+        </div>
+        <h3 class="platform-preview-title">Agent Builder</h3>
+      </div>
+      <div class="platform-preview">
+        <div class="platform-preview-icon">
+          <img src="images/copilot-studio.png" alt="Copilot Studio" class="platform-preview-img">
+        </div>
+        <h3 class="platform-preview-title">Copilot Studio</h3>
+      </div>
+      <div class="platform-preview">
+        <div class="platform-preview-icon">
+          <img src="images/foundry.svg" alt="Microsoft Foundry" class="platform-preview-img">
+        </div>
+        <h3 class="platform-preview-title">Microsoft Foundry</h3>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-lg" id="start-btn">
+      Get Started <span class="icon icon-chevron-right"></span>
+    </button>
   </div>
+</div></div>
+        <div id="prescreen-section" class="fade-in hidden"><div class="card">
+  <div class="card-content card-content--centered">
+    <h2 class="prescreen-heading">
+      Where would you like to begin?
+    </h2>
+    <p class="prescreen-description">
+      Choose a starting point. This helps us tailor the best recommendation for you.
+    </p>
+    <div class="options-list">
+      <div class="option-card prescreen-option prescreen-option--builtin" id="prescreen-yes" role="button" tabindex="0" onclick="handlePrescreenYes()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();handlePrescreenYes()}">
+        <div class="prescreen-option-icon prescreen-option-icon--builtin">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div class="option-content">
+          <div class="option-label">
+            I'd like to start with a built-in Microsoft 365 Copilot experience
+          </div>
+          <div class="option-description">
+            Explore what's available in Microsoft 365, including Cowork and pre-built agents
+          </div>
+        </div>
+      </div>
+      <div class="option-card prescreen-option prescreen-option--custom" id="prescreen-no" role="button" tabindex="0" onclick="handlePrescreenNo()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();handlePrescreenNo()}">
+        <div class="prescreen-option-icon prescreen-option-icon--custom">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <div class="option-content">
+          <div class="option-label">
+            I'd like to build a custom agent with specific requirements
+          </div>
+          <div class="option-description">
+            Answer a few quick questions so we can recommend the right agent approach for your scenario
+          </div>
+        </div>
+      </div>
+      <div class="option-card prescreen-option prescreen-option--explore" id="prescreen-explore" role="button" tabindex="0" onclick="handlePrescreenExplore()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();handlePrescreenExplore()}">
+        <div class="prescreen-option-icon prescreen-option-icon--explore">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+        </div>
+        <div class="option-content">
+          <div class="option-label">
+            I'm exploring what's possible with agents
+          </div>
+          <div class="option-description">
+            Browse all four platforms and learn which scenarios each one is designed for
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></div>
+        <div id="exploration-section" class="fade-in hidden"><div class="card">
+  <div class="card-content card-content--centered">
+    <a href="#" class="exploration-back" onclick="showSection('prescreen-section');pushState('prescreen-section');return false">← Back to options</a>
+    <h2 class="welcome-heading" style="font-size:32px">Explore Microsoft Agent Platforms</h2>
+    <p class="welcome-description">See what each platform offers before deciding which fits your scenario.</p>
+    <div class="exploration-grid" id="exploration-grid"></div>
+    <div class="exploration-cta">
+      <h3 class="exploration-cta-heading">Not sure which fits? Let the assessment guide you</h3>
+      <button class="btn btn-primary btn-lg" onclick="handlePrescreenNo()">Start the Assessment →</button>
+    </div>
+  </div>
+</div></div>
+        <div id="assessment-section" class="fade-in hidden"><div class="card">
+  <div class="card-content">
+    <div id="question-counter" class="question-counter"></div>
+    <h2 class="question-title" id="question-title"></h2>
+    <p class="question-subtitle" id="question-subtitle"></p>
+    <div class="options-list" id="options-list"></div>
+    <div class="center assessment-nav">
+      <button class="btn btn-ghost" id="prev-btn">
+        <span class="icon icon-chevron-left"></span> Back
+      </button>
+      <button class="btn btn-primary" id="next-btn" disabled>
+        Next <span class="icon icon-chevron-right"></span>
+      </button>
+    </div>
+  </div>
+</div></div>
+        <div id="recommendation-section" class="fade-in hidden">
+          <nav id="rec-nav" class="rec-nav" style="display:none">
+            <a href="javascript:void(0)" onclick="document.getElementById('rec-primary-card').scrollIntoView({behavior:'smooth',block:'start'})">Recommendation</a>
+            <span class="rec-nav-sep">·</span>
+            <a href="javascript:void(0)" id="rec-nav-also" style="display:none" onclick="document.getElementById('rec-second-card').scrollIntoView({behavior:'smooth',block:'start'})">Also Consider</a>
+            <span class="rec-nav-sep" id="rec-nav-also-sep" style="display:none">·</span>
+            <a href="javascript:void(0)" id="rec-nav-scores" onclick="document.getElementById('rec-score-comparison').scrollIntoView({behavior:'smooth',block:'start'})">Score Breakdown</a>
+          </nav>
+          <div id="rec-cross-notes" class="cross-notes hidden"></div>
+          <div id="rec-primary-card"></div>
+          <div id="rec-pair-banner" class="pair-banner hidden"></div>
+          <div id="rec-second-label" class="second-label hidden"></div>
+          <div id="rec-second-card"></div>
+          <div class="center">
+            <button id="rec-score-toggle" class="btn btn-ghost score-toggle hidden" onclick="toggleScoreComparison()">
+              See how we scored this <span class="score-toggle-chevron">▾</span>
+            </button>
+          </div>
+          <div id="rec-score-comparison" class="score-comparison hidden"></div>
 
-  <script>
-    const msalInstance = new msal.PublicClientApplication({
-      auth: {
-        clientId: "90b98326-009c-431c-a8c4-231ff9366cbf", // Replace with your Microsoft Entra application client ID
-        authority: "https://login.microsoftonline.com/fac75216-7554-4d10-b3e2-27b6277bdf67", // Replace with your tenant ID
-        redirectUri: window.location.origin
-      },
-      cache: {
-        cacheLocation: "localStorage",
-        storeAuthStateInCookie: true
-      }
-    });
+          <div id="rec-fasttrack-prompt" class="hidden fasttrack-prompt">
+            <p class="fasttrack-text">
+              If you need more customization, try the full assessment
+            </p>
+            <button class="btn btn-secondary" onclick="startFullAssessment()">
+              Take the Full Assessment
+            </button>
+          </div>
+          <div id="decision-card" class="decision-card-meta-section fade-in" style="display:none" role="region" aria-label="Recommendation summary">
+            <p id="decision-card-context" class="decision-card-context" style="display:none">
+              This recommendation was generated by the Agent Platform Advisor based on specific scenario answers.
+              <a href="javascript:void(0)" onclick="restart()">Take your own assessment →</a>
+            </p>
+            <div id="decision-card-banner" class="decision-card-banner" style="display:none" role="status" aria-live="polite"></div>
+            <div id="decision-card-drift" class="decision-card-drift" style="display:none"></div>
+          </div>
+          <div class="center rec-actions">
+            <button class="btn btn-ghost" onclick="restart()">
+              ↩ Start Over
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
 
-    const loginRequest = {
-      scopes: ["https://api.powerplatform.com/CopilotStudio.Copilots.Invoke"]
-    };
+    <div class="footer">
+      Created by
+      <a href="https://www.linkedin.com/in/rstandefer/">Robert Standefer</a>&amp; the <a href="https://aka.ms/wearecat">Microsoft Copilot Acceleration Team</a>
+      <p>If you encounter a problem, please
+        <a href="https://github.com/microsoft/cat/issues/new">create an issue</a>.
+      </p>
+    </div>
 
-    function TypingIndicator({ isTyping }) {
-      return React.createElement(
-        'div',
-        { className: `typing-indicator${isTyping ? ' active' : ''}` },
-        isTyping
-          ? React.createElement('div', { className: 'typing-bubble' }, 'Retrieving...')
-          : ''
-      );
-    }
-
-    async function getToken() {
-      const accounts = msalInstance.getAllAccounts();
-      if (accounts.length > 0) {
-        return (await msalInstance.acquireTokenSilent({ ...loginRequest, account: accounts[0] })).accessToken;
-      } else {
-        return (await msalInstance.loginPopup({ ...loginRequest, prompt: "consent" })).accessToken;
-      }
-    }
-
-    async function startChat(token) {
-      const strategy = new window.CopilotStudioDirectToEngineChatAdapter.ThirdPartyPublishedBotStrategy({
-        botSchema: 'crdd8_demoAgent', // Replace with your Copilot Studio Agent schema name
-        environmentEndpointURL: new URL('https://10dc97950ee5ede99b230d739c89ad.87.environment.api.powerplatform.com/'), // Replace with your Power Platform environment endpoint
-        getToken: () => token,
-        transport: 'auto'
-      });
-
-      const directLine = window.CopilotStudioDirectToEngineChatAdapter.toDirectLineJS(
-        window.CopilotStudioDirectToEngineChatAdapter.createHalfDuplexChatAdapter(strategy, { emitStartConversationEvent: true })
-      );
-
-      const { Components } = window.WebChat;
-      const { useState, useEffect } = window.React;
-
-      const App = () => {
-        const [isTyping, setIsTyping] = useState(false);
-
-        useEffect(() => {
-          const sub = directLine.activity$.subscribe(activity => {
-            if (
-              activity.type === 'event' &&
-              activity.name === 'DynamicPlanReceived' &&
-              Array.isArray(activity?.value?.steps) &&
-              activity.value.steps.some(step => step.includes('UniversalSearchTool'))
-            ) {
-              setIsTyping(true);
-            } else if (
-              activity.type === 'event' &&
-              activity.name === 'DynamicPlanStepFinished' &&
-              activity?.value?.taskDialogId === 'P:UniversalSearchTool'
-            ) {
-              setIsTyping(false);
-            }
-          });
-          return () => sub.unsubscribe();
-        }, []);
-
-        return React.createElement(
-          Components.AccessKeySinkSurface,
-          {
-            style: {
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'flex-end',
-              height: '100%'
-            }
-          },
-          React.createElement(Components.BasicToaster),
-          React.createElement(Components.BasicTranscript),
-          React.createElement(TypingIndicator, { isTyping }),
-          React.createElement(Components.BasicSendBox)
-        );
-      };
-
-      window.ReactDOM.render(
-        React.createElement(
-          window.WebChat.FluentThemeProvider,
-          null,
-          React.createElement(
-            Components.Composer,
-            {
-              directLine,
-              styleOptions: {
-                backgroundColor: 'var(--colorNeutralBackground1)',
-                bubbleBackground: 'var(--colorNeutralBackground2)',
-                bubbleTextColor: 'var(--colorNeutralForeground1)',
-                bubbleFromUserBackground: 'var(--colorBrandStroke2)',
-                bubbleFromUserTextColor: 'var(--colorNeutralForeground1)',
-                timestampColor: 'var(--colorNeutralForeground3)',
-                bubbleBorderRadius: 10,
-                bubbleFromUserBorderRadius: 10,
-              }
-            },
-            React.createElement(App)
-          )
-        ),
-        document.getElementById('webchat')
-      );
-    }
-
-    document.addEventListener('DOMContentLoaded', async () => {
-      try {
-        const token = await getToken();
-        startChat(token);
-      } catch (e) {
-        document.body.innerHTML = `<div style="color: red; font-family: sans-serif; padding: 1em;">Authentication failed: ${e.message}</div>`;
-      }
-    });
-  </script>
-</body>
+    <!-- CDN + scripts here -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <script src="./assets/apa.js"></script>
+  </body>
 </html>
